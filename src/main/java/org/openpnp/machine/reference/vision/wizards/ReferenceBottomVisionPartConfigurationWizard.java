@@ -20,6 +20,7 @@ import org.openpnp.model.LengthUnit;
 import org.openpnp.model.Location;
 import org.openpnp.model.Part;
 import org.openpnp.spi.Nozzle;
+import org.openpnp.spi.PartAlignment;
 import org.openpnp.util.UiUtils;
 import org.openpnp.util.VisionUtils;
 import org.openpnp.vision.pipeline.CvPipeline;
@@ -106,10 +107,13 @@ public class ReferenceBottomVisionPartConfigurationWizard extends AbstractConfig
     }
 
     private void testAlignment() throws Exception {
-        Nozzle nozzle = MainFrame.machineControlsPanel.getSelectedNozzle();
+        Nozzle nozzle = MainFrame.get().getMachineControls().getSelectedNozzle();
 
         // perform the alignment
-        Location offsets = bottomVision.findOffsets(part, nozzle);
+
+
+        PartAlignment.PartAlignmentOffset alignmentOffset = bottomVision.findOffsets(part, null, null, nozzle);
+        Location offsets = alignmentOffset.getLocation();
 
         if (!chckbxCenterAfterTest.isSelected()) {
             return;
@@ -147,7 +151,7 @@ public class ReferenceBottomVisionPartConfigurationWizard extends AbstractConfig
         CvPipeline pipeline = partSettings.getPipeline();
         pipeline.setCamera(VisionUtils.getBottomVisionCamera());
         CvPipelineEditor editor = new CvPipelineEditor(pipeline);
-        JDialog dialog = new JDialog(MainFrame.mainFrame, "Bottom Vision Pipeline");
+        JDialog dialog = new JDialog(MainFrame.get(), "Bottom Vision Pipeline");
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.getContentPane().add(editor);
         dialog.setSize(1024, 768);

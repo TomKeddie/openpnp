@@ -90,7 +90,7 @@ public class ReferenceBottomVisionConfigurationWizard extends AbstractConfigurat
                             .values()) {
                         partSettings.setPipeline(bottomVision.getPipeline().clone());
                     }
-                    MessageBoxes.errorBox(getTopLevelAncestor(), "Parts Reset",
+                    MessageBoxes.infoBox("Parts Reset",
                             "All custom part pipelines have been reset.");
                 });
             }
@@ -102,7 +102,7 @@ public class ReferenceBottomVisionConfigurationWizard extends AbstractConfigurat
         CvPipeline pipeline = bottomVision.getPipeline();
         pipeline.setCamera(VisionUtils.getBottomVisionCamera());
         CvPipelineEditor editor = new CvPipelineEditor(pipeline);
-        JDialog dialog = new JDialog(MainFrame.mainFrame, "Bottom Vision Pipeline");
+        JDialog dialog = new JDialog(MainFrame.get(), "Bottom Vision Pipeline");
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.getContentPane().add(editor);
         dialog.setSize(1024, 768);

@@ -83,7 +83,7 @@ public class ReferenceNozzleTip extends AbstractNozzleTip {
     public boolean canHandle(Part part) {
         boolean result =
                 allowIncompatiblePackages || compatiblePackages.contains(part.getPackage());
-        logger.debug("{}.canHandle({}) => {}", new Object[] {getName(), part.getId(), result});
+        logger.debug("{}.canHandle({}) => {}", getName(), part.getId(), result);
         return result;
     }
 
@@ -351,7 +351,7 @@ public class ReferenceNozzleTip extends AbstractNozzleTip {
             else {
                 throw new Exception("Unrecognized result " + result);
             }
-            MainFrame.mainFrame.cameraPanel.getCameraView(camera).showFilteredImage(
+            MainFrame.get().get().getCameraViews().getCameraView(camera).showFilteredImage(
                     OpenCvUtils.toBufferedImage(pipeline.getWorkingImage()), 250);
             return location;
         }

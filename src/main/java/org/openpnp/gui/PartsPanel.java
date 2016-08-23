@@ -167,7 +167,7 @@ public class PartsPanel extends JPanel implements WizardContainer {
                 new IdentifiableTableCellRenderer<org.openpnp.model.Package>());
 
         table.setRowSorter(tableSorter);
-
+        table.getTableHeader().setDefaultRenderer(new MultisortTableHeaderCellRenderer());
         splitPane.setLeftComponent(new JScrollPane(table));
         splitPane.setRightComponent(tabbedPane);
 
@@ -320,7 +320,7 @@ public class PartsPanel extends JPanel implements WizardContainer {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             UiUtils.submitUiMachineTask(() -> {
-                Nozzle nozzle = MainFrame.machineControlsPanel.getSelectedNozzle();
+                Nozzle nozzle = MainFrame.get().getMachineControls().getSelectedNozzle();
                 Part part = getSelection();
                 Feeder feeder = null;
                 // find a feeder to feed

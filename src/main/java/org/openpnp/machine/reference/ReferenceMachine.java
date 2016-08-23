@@ -31,6 +31,7 @@ import org.openpnp.gui.support.PropertySheetWizardAdapter;
 import org.openpnp.gui.support.Wizard;
 import org.openpnp.machine.reference.camera.ImageCamera;
 import org.openpnp.machine.reference.camera.LtiCivilCamera;
+import org.openpnp.machine.reference.camera.OnvifIPCamera;
 import org.openpnp.machine.reference.camera.OpenCvCamera;
 import org.openpnp.machine.reference.camera.SimulatedUpCamera;
 import org.openpnp.machine.reference.camera.VfwCamera;
@@ -68,7 +69,10 @@ public class ReferenceMachine extends AbstractMachine {
     protected PnpJobProcessor pnpJobProcessor = new ReferencePnpJobProcessor();
 
     @Element(required = false)
-    protected PasteDispenseJobProcessor pasteDispenseJobProcessor = null;
+    protected PasteDispenseJobProcessor pasteDispenseJobProcessor = new ReferencePasteDispenseJobProcessor();
+
+    @Element(required = false)
+    protected PasteDispenseJobProcessor glueDispenseJobProcessor = new ReferenceGlueDispenseJobProcessor();
 
     @Element(required = false)
     protected PartAlignment partAlignment = new ReferenceBottomVision();
@@ -187,6 +191,7 @@ public class ReferenceMachine extends AbstractMachine {
         l.add(LtiCivilCamera.class);
         l.add(VfwCamera.class);
         l.add(OpenCvCamera.class);
+        l.add(OnvifIPCamera.class);
         l.add(ImageCamera.class);
         l.add(SimulatedUpCamera.class);
         return l;
@@ -245,4 +250,10 @@ public class ReferenceMachine extends AbstractMachine {
     public PasteDispenseJobProcessor getPasteDispenseJobProcessor() {
         return pasteDispenseJobProcessor;
     }
+
+    @Override
+    public PasteDispenseJobProcessor getGlueDispenseJobProcessor() {
+        return glueDispenseJobProcessor;
+    }
+
 }

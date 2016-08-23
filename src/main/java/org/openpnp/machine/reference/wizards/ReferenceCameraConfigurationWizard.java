@@ -188,7 +188,7 @@ public class ReferenceCameraConfigurationWizard extends AbstractConfigurationWiz
         panelGeneral.add(cropWidthTextField, "4, 12");
         cropWidthTextField.setColumns(10);
         
-        lblNewLabel = new JLabel("(Use 0 for no crop)");
+        lblNewLabel = new JLabel("(Use 0 for no cropping)");
         panelGeneral.add(lblNewLabel, "5, 12");
         
         lblCropHeight = new JLabel("Crop Height");
@@ -198,7 +198,7 @@ public class ReferenceCameraConfigurationWizard extends AbstractConfigurationWiz
         panelGeneral.add(cropHeightTextField, "4, 14");
         cropHeightTextField.setColumns(10);
         
-        lblNewLabel_1 = new JLabel("(Use 0 for no crop)");
+        lblNewLabel_1 = new JLabel("(Use 0 for no cropping)");
         panelGeneral.add(lblNewLabel_1, "5, 14");
 
         panelLocation = new JPanel();
@@ -345,11 +345,11 @@ public class ReferenceCameraConfigurationWizard extends AbstractConfigurationWiz
     private Action startCalibration = new AbstractAction("Start Lens Calibration") {
         @Override
         public void actionPerformed(ActionEvent e) {
-            MainFrame.cameraPanel.setSelectedCamera(referenceCamera);
+            MainFrame.get().getCameraViews().setSelectedCamera(referenceCamera);
 
             startLensCalibrationBtn.setAction(cancelCalibration);
 
-            CameraView cameraView = MainFrame.cameraPanel.getCameraView(referenceCamera);
+            CameraView cameraView = MainFrame.get().getCameraViews().getCameraView(referenceCamera);
             String message =
                     "Go to https://github.com/openpnp/openpnp/wiki/Camera-Lens-Calibration for detailed instructions.\n"
                             + "When you have your calibration card ready, hold it in front of the camera so that the entire card is visible.\n"
@@ -379,7 +379,7 @@ public class ReferenceCameraConfigurationWizard extends AbstractConfigurationWiz
 
             referenceCamera.cancelCalibration();
 
-            CameraView cameraView = MainFrame.cameraPanel.getCameraView(referenceCamera);
+            CameraView cameraView = MainFrame.get().getCameraViews().getCameraView(referenceCamera);
             cameraView.setText(null);
             cameraView.flash();
         }

@@ -1,6 +1,119 @@
 This file lists major or notable changes to OpenPnP in chronological order. This is not
 a complete change list, only those that may directly interest or affect users.
 
+# 2016-08-08
+
+* GcodeDriver Tool Specific Commands
+
+	GcodeDriver now has the ability to send different commands based on the the tool that
+	that the command is being sent for. This means that you can have different commands for each 
+	object on the head such as Nozzles, Cameras, Actuators, etc. Most importantly, you can now
+	have separate pick and place commands for each Nozzle.
+	
+	When you first start OpenPnP with this version it will automatically update your
+	configuration and move the existing commands into a default command set. After closing
+	OpenPnP, please inspect your machine.xml to see the changes.
+	
+	To specify a specific tool for a command, the following syntax is used:
+	```
+     <command head-mountable-id="269edd567-df6c-495a-9b30-2fcbf5c9742f" type="PICK_COMMAND">
+        <text>M808</text>
+        <text>M800</text>
+     </command>
+     <command head-mountable-id="69edd567-df6c-495a-9b30-2fcbf5c9742f" type="PICK_COMMAND">
+        <text>M808</text>
+        <text>M802--</text>
+     </command>
+	```
+	
+	Note that the PICK_COMMAND is specified twice. One for each nozzle. The head-mountable-id
+	specifies which nozzle the command is for.
+	
+	OpenPnP will first search for a command that matches the specified tool, and if it cannot
+	find one for the tool then it will default to the command defined without a head-mountable-id.
+	
+	The commands that support tool specific codes are:
+    * MOVE_TO_COMMAND
+    * PICK_COMMAND
+    * PLACE_COMMAND
+    * ACTUATE_BOOLEAN_COMMAND
+    * ACTUATE_DOUBLE_COMMAND
+
+# 2016-06-22
+
+* Python Scripting Support
+
+	Python support is now included by default, instead of requiring an external install.
+
+* GcodeDriver Pump On, Pump Off
+
+	GcodeDriver now has pump-on-command and pump-off-command commands which will trigger
+	intelligently depending on whether there are any nozzles currently picking. 
+
+# 2016-06-21
+
+* GcodeDriver Axis Mapping
+
+	The GcodeDriver now has a system for mapping axes to object on the head, along with a
+	system for transforming coordinates on each axis. This allows more complex head setups than
+	the basic single nozzle, four axis setup. In particular, this system allows for the case
+	where a single Z motor powers two Z axes either in a cam, belt or rack and pinion
+	configuration by specifying a single Z axis with two nozzles mapped to it, along with an
+	appropriate transform. See https://github.com/openpnp/openpnp/wiki/GcodeDriver#axis-mapping
+	for more information.
+	
+# 2016-06-20
+
+* Scripting Engine
+
+	OpenPnP now has the ability to run user provided scripts that have full access to the
+	OpenPnP API and GUI. This makes it easy to add new utilities and functionality to
+	your installtion of OpenPnP without having to modify the code.
+	
+	For more information, see:
+	https://github.com/openpnp/openpnp/wiki/Scripting
+
+# 2016-06-19
+
+* ONVIF Camera Support
+
+	Thanks to @richard-sim we now have support for IP cameras using the ONVIF standard. This
+	standard is used by many IP cameras, especially in the realm of security cameras. This brings
+	cheap IP camera support to OpenPnP and opens up the options for cameras much wider than before.
+
+# 2016-06-16
+
+* Log Tab
+
+	There is a new main window tab called Log that shows logging output. This makes it easier for
+	you to see the output of various commands in OpenPnP. It has options to limit the length of
+	the log shown, and the log level. This is the first version of the feature and does not
+	include all of the features that are planned. More information is available at:
+	https://github.com/openpnp/openpnp/issues/288
+
+# 2016-06-03
+
+* GcodeDriver Move To Complete Regex
+
+	You can now include <move-to-complete-regex> in your GcodeDriver configuration to specify
+	a regex that the move-to command will wait for before completing. This is used for motion
+	controllers that return the command confirmation before movement is complete - TinyG
+	in particular. See https://github.com/openpnp/openpnp/wiki/GcodeDriver#move-to-complete-regex
+	for more information.
+
+# 2016-05-25
+
+* OpenBuilds Driver Rotation Improvements
+
+	The OpenBuilds Driver now treats the rotary axes as rotary axes, instead of linear ones. This
+	means that it will choose to turn the opposite direction if that is the faster way to reach
+	a given position. In other words, if you are trying to move from 355 degrees to 10 degrees
+	it will counterclockwise 15 degrees, passing through 360 degrees instead of clockwise 345
+	degrees passing through 180 degrees.
+	
+	This greatly improves performance related to the recent change to treat all rotation moves
+	as solo. 
+
 # 2016-05-16
 
 * Nozzle Park
